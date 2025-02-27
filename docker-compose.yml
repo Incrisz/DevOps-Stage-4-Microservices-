@@ -23,7 +23,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.entrypoints=websecure"    # Ensure traffic is served over HTTPS
-      - "traefik.http.routers.frontend.rule=Host(`bmp.com.ng`)"  # Domain for the frontend service
+      - "traefik.http.routers.frontend.rule=Host(`godwinincrisz.xyz`)"  # Domain for the frontend service
       - "traefik.http.routers.frontend.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   auth-api:
@@ -40,7 +40,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.auth.entrypoints=websecure"    # Ensure traffic is served over HTTPS
-      - "traefik.http.routers.auth.rule=Host(`auth.bmp.com.ng`)"  # Domain for the auth service
+      - "traefik.http.routers.auth.rule=Host(`auth.godwinincrisz.xyz`)"  # Domain for the auth service
       - "traefik.http.routers.auth.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   todos-api:
@@ -61,7 +61,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.todos.entrypoints=websecure"    # Ensure traffic is served over HTTPS
-      - "traefik.http.routers.todos.rule=Host(`todos.bmp.com.ng`)"  # Domain for the todos service
+      - "traefik.http.routers.todos.rule=Host(`todos.godwinincrisz.xyz`)"  # Domain for the todos service
       - "traefik.http.routers.todos.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   users-api:
@@ -77,7 +77,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.users.entrypoints=websecure"    # Ensure traffic is served over HTTPS
-      - "traefik.http.routers.users.rule=Host(`users.bmp.com.ng`)"  # Domain for the users service
+      - "traefik.http.routers.users.rule=Host(`users.godwinincrisz.xyz`)"  # Domain for the users service
       - "traefik.http.routers.users.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   log-processor:
@@ -132,6 +132,6 @@ services:
 volumes:
   redis_data:
 
-# networks:
-#   default:
-#     name: devops_network
+networks:
+  default:
+    name: devops_network
