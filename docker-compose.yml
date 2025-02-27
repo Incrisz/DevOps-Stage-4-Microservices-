@@ -1,6 +1,31 @@
 version: "3"
 
 services:
+  # traefik:
+  #   image: traefik:v3.1.6
+  #   container_name: traefik
+  #   restart: unless-stopped
+  #   command:
+  #     - "--api.dashboard=true"                     # Enable Traefik's dashboard
+  #     - "--api.insecure=true"  # Optional: Only for local testing. Use secure access in production.
+  #     - "--providers.docker=true"                  # Enable Docker provider to discover containers
+  #     - "--entrypoints.web.address=:80"            # Define HTTP entrypoint
+  #     - "--entrypoints.websecure.address=:443"     # Define HTTPS entrypoint
+  #     - "--certificatesresolvers.mytls.acme.tlschallenge=true"  # Enable TLS challenge for certs
+  #     - "--certificatesresolvers.mytls.acme.email=incriszluv@gmail.com"  # Your email for ACME
+  #     - "--certificatesresolvers.mytls.acme.storage=/letsencrypt/acme.json"  # Store certs and ensures renewal
+  #     - "--entrypoints.web.http.redirections.entryPoint.to=websecure"  # Redirect HTTP to HTTPS
+  #     - "--entrypoints.web.http.redirections.entryPoint.scheme=https"  # Ensure redirection uses HTTPS
+    
+  #   ports:
+  #     - "80:80"      # Expose HTTP port
+  #     - "443:443"    # Expose HTTPS port
+  #     # - "8080:8080"  # Expose dashboard on port 8080
+
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"  # Docker socket for Traefik to access containers
+  #     - "./letsencrypt:/letsencrypt"   
+
   frontend:
     build:
       context: ./frontend
@@ -8,6 +33,7 @@ services:
     container_name: frontend
     ports:
       - "8080:8080"
+      # - "9411:9411"
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -18,8 +44,12 @@ services:
       - auth-api
       - todos-api
     command: npm run dev
-    networks:
-      - devops_network
+
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.frontend.entrypoints=websecure"    # Ensure traffic is served over HTTPS
+    #   - "traefik.http.routers.frontend.rule=Host(`bmp.com.ng`)"  # Domain for the frontend service
+    #   - "traefik.http.routers.frontend.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   auth-api:
     build:
@@ -32,8 +62,11 @@ services:
       - .env
     depends_on:
       - users-api
-    networks:
-      - devops_network
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.auth.entrypoints=websecure"    # Ensure traffic is served over HTTPS
+    #   - "traefik.http.routers.auth.rule=Host(`auth.bmp.com.ng`)"  # Domain for the auth service
+    #   - "traefik.http.routers.auth.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   todos-api:
     build:
@@ -50,8 +83,11 @@ services:
       - REDIS_CHANNEL=${REDIS_CHANNEL}
     depends_on:
       - redis-queue
-    networks:
-      - devops_network
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.todos.entrypoints=websecure"    # Ensure traffic is served over HTTPS
+    #   - "traefik.http.routers.todos.rule=Host(`todos.bmp.com.ng`)"  # Domain for the todos service
+    #   - "traefik.http.routers.todos.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   users-api:
     build:
@@ -63,8 +99,11 @@ services:
     environment:
       - SERVER_PORT=${SERVER_PORT}
       - JWT_SECRET=${JWT_SECRET}
-    networks:
-      - devops_network
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.users.entrypoints=websecure"    # Ensure traffic is served over HTTPS
+    #   - "traefik.http.routers.users.rule=Host(`users.bmp.com.ng`)"  # Domain for the users service
+    #   - "traefik.http.routers.users.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   log-processor:
     build:
@@ -77,8 +116,6 @@ services:
       - REDIS_CHANNEL=${REDIS_CHANNEL}
     depends_on:
       - redis-queue
-    networks:
-      - devops_network
 
   redis-queue:
     image: redis:alpine
@@ -88,12 +125,13 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    networks:
-      - devops_network
 
+
+
+ 
 volumes:
   redis_data:
 
 networks:
-  devops_network:
+  default:
     name: devops_network
