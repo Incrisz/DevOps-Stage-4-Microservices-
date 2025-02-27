@@ -134,4 +134,3 @@ volumes:
 
 networks:
   default:
-    name: devops_network
