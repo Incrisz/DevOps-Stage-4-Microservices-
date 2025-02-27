@@ -1,0 +1,15 @@
+godwinincrisz.xyz {
+    reverse_proxy frontend:8080
+}
+
+auth.godwinincrisz.xyz {
+    reverse_proxy auth-api:8081
+}
+
+todos.godwinincrisz.xyz {
+    reverse_proxy todos-api:8082
+}
+
+users.godwinincrisz.xyz {
+    reverse_proxy users-api:8083
+}
