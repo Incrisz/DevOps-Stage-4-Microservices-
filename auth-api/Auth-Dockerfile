@@ -1,0 +1,35 @@
+# Build Stage
+FROM golang:1.23 AS builde-stage
+
+# Set working directory
+WORKDIR /app
+
+# Copy go.mod and go.sum and download dependencies
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy the source code
+COPY . .
+
+# Build the Go application
+RUN CGO_ENABLED=0 GOOS=linux go build -o auth-api .
+
+# Final Stage: Create a minimal runtime image
+FROM alpine:latest
+
+# Set working directory
+WORKDIR /app
+
+# Copy the built binary from the build stage
+COPY --from=builde-stage /app/auth-api .
+
+# Expose the application port (default to 8081)
+EXPOSE 8081
+
+# Set default environment variables (can be overridden at runtime)
+# ENV AUTH_API_PORT=8081 \
+#     USERS_API_ADDRESS=http://user:8083 \
+#     JWT_SECRET=DZ5O1JxC96rER4wsvh4r2/bLPKhnrl2TbO5dFq9Kyas=
+
+# Run the application
+CMD ["./auth-api"]
