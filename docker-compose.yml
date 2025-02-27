@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   # traefik:
@@ -58,8 +58,10 @@ services:
     container_name: auth-api
     ports:
       - "${AUTH_API_PORT}:8081"
-    env_file:
-      - .env
+    environment:
+      - AUTH_API_PORT=${AUTH_API_PORT}
+      - JWT_SECRET=${JWT_SECRET}
+      - USERS_API_ADDRESS=${USERS_API_ADDRESS}
     depends_on:
       - users-api
     # labels:
@@ -132,5 +134,3 @@ services:
 volumes:
   redis_data:
 
-networks:
-  default:
