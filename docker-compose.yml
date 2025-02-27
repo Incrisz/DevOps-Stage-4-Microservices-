@@ -32,7 +32,7 @@ services:
       dockerfile: Auth-Dockerfile
     container_name: auth-api
     ports:
-      - "${AUTH_API_PORT}:8081"
+      - "8081:8081"
     env_file:
       - .env
     depends_on:
@@ -70,9 +70,9 @@ services:
       dockerfile: User-Dockerfile
     container_name: users-api
     ports:
-      - "${SERVER_PORT}:8083"
+      - "8083:8083"
     environment:
-      - SERVER_PORT=${SERVER_PORT}
+      - SERVER_PORT=8083
       - JWT_SECRET=${JWT_SECRET}
     labels:
       - "traefik.enable=true"
