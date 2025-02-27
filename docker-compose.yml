@@ -132,6 +132,6 @@ services:
 volumes:
   redis_data:
 
-networks:
-  default:
-    name: devops_network
+# networks:
+#   default:
+#     name: devops_network
