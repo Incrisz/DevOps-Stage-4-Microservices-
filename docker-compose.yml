@@ -27,7 +27,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"  # Docker socket for Traefik to access containers
       - "./letsencrypt:/letsencrypt"   
     labels:
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.godwinincrisz.xyz`)"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.ijeawele.online`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       # - "traefik.http.routers.dashboard.middlewares=auth"
       # - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$.a.FnkNX$$5/WMMszfZUq35K3/S47TR0"
@@ -53,7 +53,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.entrypoints=websecure"    # Ensure traffic is served over HTTPS
-      - "traefik.http.routers.frontend.rule=Host(`godwinincrisz.xyz`)"  # Domain for the frontend service
+      - "traefik.http.routers.frontend.rule=Host(`ijeawele.online`)"  # Domain for the frontend service
       - "traefik.http.routers.frontend.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   auth-api:
@@ -70,7 +70,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.auth.entrypoints=websecure"    # Ensure traffic is served over HTTPS
-      - "traefik.http.routers.auth.rule=Host(`auth.godwinincrisz.xyz`)"  # Domain for the auth service
+      - "traefik.http.routers.auth.rule=Host(`auth.ijeawele.online`)"  # Domain for the auth service
       - "traefik.http.routers.auth.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   todos-api:
@@ -91,7 +91,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.todos.entrypoints=websecure"    # Ensure traffic is served over HTTPS
-      - "traefik.http.routers.todos.rule=Host(`todos.godwinincrisz.xyz`)"  # Domain for the todos service
+      - "traefik.http.routers.todos.rule=Host(`todos.ijeawele.online`)"  # Domain for the todos service
       - "traefik.http.routers.todos.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   users-api:
@@ -107,7 +107,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.users.entrypoints=websecure"    # Ensure traffic is served over HTTPS
-      - "traefik.http.routers.users.rule=Host(`users.godwinincrisz.xyz`)"  # Domain for the users service
+      - "traefik.http.routers.users.rule=Host(`users.ijeawele.online`)"  # Domain for the users service
       - "traefik.http.routers.users.tls.certresolver=mytls"   # Use ACME resolver for SSL certs
 
   log-processor:
@@ -143,5 +143,6 @@ networks:
     name: devops_network
 
 
-# sudo apt-get update && sudo apt-get install apache2-utils
-# htpasswd -nb admin 1password
+# mkdir -p letsencrypt
+# touch letsencrypt/acme.json
+# chmod 600 letsencrypt/acme.json
