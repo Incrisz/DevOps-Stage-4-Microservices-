@@ -29,7 +29,7 @@ services:
       - "traefik.http.routers.dashboard.rule=Host(`traefik.bmp.com.ng`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.middlewares=auth"
-      - "traefik.http.middlewares.auth.basicauth.users=admin:$apr1$.a.FnkNX$5/WMMszfZUq35K3/S47TR0"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$.a.FnkNX$$5/WMMszfZUq35K3/S47TR0"
   frontend:
     build:
       context: ./frontend
