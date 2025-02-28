@@ -11,7 +11,7 @@ services:
       - "--providers.docker=true"                  # Enable Docker provider to discover containers
       - "--entrypoints.web.address=:80"            # Define HTTP entrypoint
       - "--entrypoints.websecure.address=:443"     # Define HTTPS entrypoint
-      # - "--entrypoints.traefik.address=:8090"  # Change from 8080 to 8090 for dashboard
+      - "--entrypoints.traefik.address=:8090"  # Change from 8080 to 8090 for dashboard
       - "--certificatesresolvers.mytls.acme.tlschallenge=true"  # Enable TLS challenge for certs
       - "--certificatesresolvers.mytls.acme.email=godwinincrisz@gmail.com"  # Your email for ACME
       - "--certificatesresolvers.mytls.acme.storage=/letsencrypt/acme.json"  # Store certs and ensures renewal
@@ -21,7 +21,7 @@ services:
     ports:
       - "80:80"      # Expose HTTP port
       - "443:443"    # Expose HTTPS port
-      # - "8090:8090"  # Expose dashboard on port 8080
+      - "8090:8090"  # Expose dashboard on port 8080
 
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"  # Docker socket for Traefik to access containers
@@ -29,8 +29,8 @@ services:
     labels:
       - "traefik.http.routers.dashboard.rule=Host(`traefik.bmp.com.ng`)"
       - "traefik.http.routers.dashboard.service=api@internal"
-      # - "traefik.http.routers.dashboard.middlewares=auth"
-      # - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$.a.FnkNX$$5/WMMszfZUq35K3/S47TR0"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$.a.FnkNX$$5/WMMszfZUq35K3/S47TR0"
   frontend:
     build:
       context: ./frontend
